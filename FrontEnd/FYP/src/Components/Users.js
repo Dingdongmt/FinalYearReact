@@ -3,7 +3,7 @@ import '../css/App.css';
 import {Redirect} from 'react-router-dom';
 //import {browserRouter, Route} from 'react-router-dom'; //impoorting React Router to nav between pages
 
-class Profile extends Component {
+class Users extends Component {
 
   constructor(props){
     super(props);
@@ -34,7 +34,7 @@ class Profile extends Component {
         <div className="Navigation">
           <div className="row col-md-12">
             <div className="col-md-2 Back"><p className="NavTxt" onClick={this.onBackClick} ><i className="fas fa-chevron-left"></i>Back</p></div>
-            <div className="col-md-8 PageName"><h1>Profile</h1></div>
+            <div className="col-md-8 PageName"><h1>Users</h1></div>
             <div className="col-md-2 SignOut"><p className="NavTxt" onClick={this.onSignoutClick}>SignOut</p></div>
           </div>
         </div>
@@ -44,4 +44,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+export default Users;

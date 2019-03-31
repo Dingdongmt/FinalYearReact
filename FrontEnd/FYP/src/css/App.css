@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+  background-color: #282c34;
+}
+
+.Navigation{
+  background-color: #fdb927;
+  text-align: center;
+}
+.NavTxt{
+    margin-top: 1em;
+    font-weight: bold;
+}
+.NavTxt:hover{
+  color: white;
+  cursor: pointer;
+}
+.Main-nav .fas{
+  color: white;
+  font-size: 10em;
+}
+.Main-nav i:hover{
+  color: #6c8ebf;
+  cursor: pointer;
+}
+.mainTxt{
+    font-weight: bold;
+    color: white;
+}
+
+.HomeIcon{
+  margin-top: 15%;
+}
+
+.fa-chevron-left{
+  margin-right: 10px;
+  color: black;
+}
+
+.loginPage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}

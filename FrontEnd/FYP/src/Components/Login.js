@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import '../css/Login.css';
+import '../css/App.css';
 import logo from '../Asset/Logo.png';
-import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css'; //importing fontaswesome
-import '../../node_modules/bootstrap/dist/css/bootstrap.css'; //importuing bootstrap
 import {Redirect} from 'react-router-dom'; //impoorting React Router to nav between pages
 
 class Login extends Component {
@@ -31,37 +29,37 @@ class Login extends Component {
     this.setState({Password:value});
   }
 
-  // Submit(){
-  //   if (this.state.Username === "test" && this.state.Password === "123") {
-  //     this.setState({loggedin:true});
-  //   }
-  // }
-
   Submit(){
-    var data = {Username: this.state.Username , Password: this.state.Password};
-    fetch ('http://localhost:62591/Help/Api/POST-Login',{
-      method:'POST',
-      body: JSON.stringify(data),
-      mode: 'no-cors',
-    }).then(response => response.json())
-    .then(results => {
-      console.log("success");
-      this.setState({
-        loggedin: true,
-        items: results,
-      });
-    },
-    (error)=>{
-      this.setState({
-        error: "Username or Password is wrong"
-      });
+    if (this.state.Username === "123" && this.state.Password === "123") {
+      this.setState({loggedin:true});
     }
-    )
   }
+
+  //Submit(){
+  //   var data = {Username: this.state.Username , Password: this.state.Password};
+  //   fetch ('http://localhost:62591/Help/Api/POST-Login',{
+  //     method:'POST',
+  //     body: JSON.stringify(data),
+  //     mode: 'no-cors',
+  //   }).then(response => response.json())
+  //   .then(results => {
+  //     console.log("success");
+  //     this.setState({
+  //       loggedin: true,
+  //       items: results,
+  //     });
+  //   },
+  //   (error)=>{
+  //     this.setState({
+  //       error: "Username or Password is wrong"
+  //     });
+  //   }
+  //   )
+  // }
   
   render() {
     if (this.state.loggedin){
-      return (<Redirect to='/home' />);
+      return (<Redirect to={{pathname:'/home', state: { Username: '123',Password: '123' }}} />);
     }
     else {
       return (

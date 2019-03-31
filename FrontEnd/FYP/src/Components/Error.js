@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import '../css/Login.css';
-import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css'; //importing fontaswesome
-import '../../node_modules/bootstrap/dist/css/bootstrap.css'; //importuing bootstrap
+import '../css/App.css';
 //import {browserRouter, Route} from 'react-router-dom'; //impoorting React Router to nav between pages
 
 class Home extends Component {
@@ -14,7 +12,7 @@ class Home extends Component {
   render() {
     return (
       <div className="App">
-        Path does not exist
+        <h1>Path does not exist</h1>
         </div>
     );
   }
