@@ -12,10 +12,12 @@ class Login extends Component {
       error: null,
       Type:false,
       loggedin:false,
+      signup: false,
     }
 
     this.handlePass = this.handlePass.bind(this);
     this.handleUser = this.handleUser.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
     this.Submit = this.Submit.bind(this);
   }
 
@@ -28,38 +30,44 @@ class Login extends Component {
     var value = event.target.value;
     this.setState({Password:value});
   }
-
-  Submit(){
-    if (this.state.Username === "123" && this.state.Password === "123") {
-      this.setState({loggedin:true});
-    }
+  handleSignup(){
+    this.setState({signup:true});
   }
 
-  //Submit(){
-  //   var data = {Username: this.state.Username , Password: this.state.Password};
-  //   fetch ('http://localhost:62591/Help/Api/POST-Login',{
-  //     method:'POST',
-  //     body: JSON.stringify(data),
-  //     mode: 'no-cors',
-  //   }).then(response => response.json())
-  //   .then(results => {
-  //     console.log("success");
-  //     this.setState({
-  //       loggedin: true,
-  //       items: results,
-  //     });
-  //   },
-  //   (error)=>{
-  //     this.setState({
-  //       error: "Username or Password is wrong"
-  //     });
-  //   }
-  //   )
-  // }
+  Submit(){
+    var data = {Username: this.state.Username , Password: this.state.Password};
+    fetch ('https://fypwebservice.azurewebsites.net/login',{
+    //fetch ('http://localhost:62591//login',{
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' },
+      method:'POST',
+      body: JSON.stringify(data),
+    }).then(response => { return response.json() })
+    .then(results => {
+      if (results !== "false"){
+        this.setState({
+          loggedin: results,
+        });
+      }else {
+        this.setState({
+          error: "Username or password entered is incorrect"
+        });
+      }
+    },
+    (error)=>{
+      this.setState({
+        error: "There is something wrong with the server. Try again later"
+      });
+    }
+    )
+  }
   
   render() {
-    if (this.state.loggedin){
-      return (<Redirect to={{pathname:'/home', state: { Username: '123',Password: '123' }}} />);
+    if (this.state.loggedin !== false){
+      return (<Redirect to={{pathname:'/home', items: this.state.loggedin}} />);
+    } else if (this.state.signup){
+      return (<Redirect to={{pathname:'/signup'}} />);
     }
     else {
       return (
@@ -67,6 +75,7 @@ class Login extends Component {
           <header className="loginPage">
             <img src={logo} alt={"Logo"} /> 
             <h1>Friendly Bunch</h1>
+            <p className="LoginTxt">No account Click here to <strong onClick={this.handleSignup}>Sign Up</strong></p>
             <div className="row">
                 <div className="input-group mb-3">
                   <div className="input-group-prepend">
@@ -81,7 +90,7 @@ class Login extends Component {
                 <input type="Password" className="form-control" placeholder="Password" onChange={this.handlePass}></input>
               </div>
             </div>
-            <p className="error">{!this.state.error ? "":this.state.error}</p>
+            <p className="Error">{!this.state.error ? "":this.state.error}</p>
               <button type="button" className="loginBtn btn btn-success" onClick={this.Submit}>Login</button>
             </header>
           </div>

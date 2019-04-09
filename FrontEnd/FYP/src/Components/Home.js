@@ -8,30 +8,27 @@ class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      isAdmin:true,
+      isAdmin: this.props.location.items.type ? this.props.location.items.type : this.props.location.items.type,
       routePage:null,
       SignOut: false,
     }
-    this.HomeIcon = null;
     this.onSignoutClick = this.onSignoutClick.bind(this);
     //this.routeRender= this.routeRender.bind(this);
   }
 
-  // this.props.location.state.Username,
-  // this.props.location.state.Password,
   routeRender(routePage){
     switch(routePage) {
       case "profile":
-        this.setState({routePage :<Redirect to={{pathname:'/profile', state: { Username: '123',Password: '123' }}} />});
+        this.setState({routePage :<Redirect to={{pathname:'/profile', items: this.props.location.items}} />});
         break;
       case "explore":
-      this.setState({routePage :<Redirect to={{pathname:'/explore', state: { Username: '123',Password: '123' }}} />});
+      this.setState({routePage :<Redirect to={{pathname:'/explore', items: this.props.location.items}} />});
         break;
       case "message":
-      this.setState({routePage :<Redirect to={{pathname:'/message', state: { Username: '123',Password: '123' }}} />});
+      this.setState({routePage :<Redirect to={{pathname:'/message', items: this.props.location.items}} />});
         break;
       default:
-      this.setState({routePage :<Redirect to={{pathname:'/users', state: { Username: '123',Password: '123' }}} />});
+      this.setState({routePage :<Redirect to={{pathname:'/users', items: this.props.location.items}} />});
     }
   }
 
@@ -39,9 +36,10 @@ class Home extends Component {
     this.setState({SignOut:true});
   }
 
-  componentWillMount() {
-    if (this.state.isAdmin){
-      this.HomeIcon = (<div className="HomeIcon">
+  render() {
+    var HomeIcon= null;
+    if (this.state.isAdmin === "True") {
+      HomeIcon = (<div className="HomeIcon">
           <div className="row col-md-12">
             <div className="col-md-3 Main-nav"><i className="fas fa-user" onClick={() => this.routeRender("profile")}></i><p className="mainTxt">Profile</p></div>
             <div className="col-md-3 Main-nav"><i className="fas fa-compass" onClick={() => this.routeRender("explore")}></i><p className="mainTxt">Explore</p></div>
@@ -50,17 +48,14 @@ class Home extends Component {
           </div>
         </div>)
     }else{
-      this.HomeIcon = <div className="HomeIcon">
+      HomeIcon = (<div className="HomeIcon">
           <div className="row col-md-12">
             <div className="col-md-4 Main-nav"><i className="fas fa-user" onClick={() => this.routeRender("profile")}></i><p className="mainTxt">Profile</p></div>
             <div className="col-md-4 Main-nav"><i className="fas fa-compass" onClick={() => this.routeRender("explore")}></i><p className="mainTxt">Explore</p></div>
             <div className="col-md-4 Main-nav"><i className="fas fa-comments" onClick={() => this.routeRender("message")}></i><p className="mainTxt">Message</p></div>
           </div>
-        </div>
+        </div>)
     }
-  }
-
-  render() {
     if (this.state.routePage){
       return (this.state.routePage);
     }else if (this.state.SignOut === true){
@@ -75,7 +70,7 @@ class Home extends Component {
               <div className="col-md-2 SignOut"><p className="NavTxt" onClick={this.onSignoutClick}>SignOut</p></div>
             </div>
           </div>
-          {this.HomeIcon}
+          {HomeIcon}
         </div>
       );
     }

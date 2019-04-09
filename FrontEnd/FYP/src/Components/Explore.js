@@ -25,7 +25,7 @@ class Explore extends Component {
   
   render() {
     if (this.state.back === true){
-    return (<Redirect to={{pathname:'/home', state: { Username: '123',Password: '123' }}}/>)
+    return (<Redirect to={{pathname:'/home', items: this.props.location.items}}/>)
     }else if (this.state.SignOut === true){
         return (<Redirect to='/'/>)
     }else{

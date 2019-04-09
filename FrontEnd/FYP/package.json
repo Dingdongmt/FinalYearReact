@@ -1,7 +1,7 @@
 {
   "name": "my-app",
   "version": "0.1.0",
-  "homepage": "https://friendlybunch.azurewebsites.net/",
+  "homepage": "https://friendly.azurewebsites.net/",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.2.1",

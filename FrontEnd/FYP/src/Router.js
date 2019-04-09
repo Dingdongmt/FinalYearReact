@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'; //impoorting React Router to nav between pages
 import Error from './Components/Error.js';
 import Login from './Components/Login.js';
+import SignUp from './Components/SignUp';
 import Home from './Components/Home.js';
 import Profile from './Components/Profile.js';
 import Explore from './Components/Explore.js';
@@ -14,6 +15,7 @@ class Router extends Component {
             <BrowserRouter>
                 <Switch>
                     <Route exact path='/' component={Login} />
+                    <Route exact path='/signup' component={SignUp} />
                     <Route path='/home' component={Home} />
                     <Route path='/Profile' component={Profile} />
                     <Route path='/Explore' component={Explore} />

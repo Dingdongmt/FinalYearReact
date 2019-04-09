@@ -2,7 +2,7 @@
   text-align: center;
   background-color: #282c34;
 }
-
+/*Navbar*/
 .Navigation{
   background-color: #fdb927;
   text-align: center;
@@ -28,6 +28,7 @@
     color: white;
 }
 
+/*home*/
 .HomeIcon{
   margin-top: 15%;
 }
@@ -36,7 +37,7 @@
   margin-right: 10px;
   color: black;
 }
-
+/*Login*/
 .loginPage {
   min-height: 100vh;
   display: flex;
@@ -45,4 +46,37 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+.LoginTxt{
+  font-size: 14px;
+}
+.LoginTxt strong{
+  color: #fdb927;
+}
+.LoginTxt strong:hover{
+  color: #6c8ebf;
+  cursor: pointer;
+}
+
+/* signup*/
+.Signup p{
+  color: White;
+}
+.Signup input{
+  width: 100%;
+}
+.fa-plus-circle{
+  font-size: 2em;
+  padding-left: 150px;
+  color: white;
+}
+.fa-minus-circle{
+  font-size: 2em;
+  padding-left: 20px;
+  color: white;
+}
+
+/* user*/
+.Users{
+  color: White;
 }
