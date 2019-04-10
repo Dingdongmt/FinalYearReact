@@ -15,12 +15,10 @@ class Users extends Component {
     this.onBackClick = this.onBackClick.bind(this);
     this.onSignoutClick = this.onSignoutClick.bind(this);
   }
-
   componentWillMount(){
     var data = this.props.location.items;
-    debugger;
-    fetch ('https://fypwebservice.azurewebsites.net/GroupUsers',{
-    //fetch ('http://localhost:62591//GroupUsers',{
+    //fetch ('https://fypwebservice.azurewebsites.net/GroupUsers',{
+    fetch ('http://localhost:62591//GroupUsers',{
       headers: { 
         'Accept': 'application/json',
         'Content-Type': 'application/json' },
@@ -54,7 +52,6 @@ class Users extends Component {
   }
   
   render() {
-    console.log(this.state.UsersList);
     let table = [], children =[];
     if(this.state.UsersList){
       for (let j = 0; j < this.state.UsersList.length; j++) {

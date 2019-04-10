@@ -80,3 +80,28 @@
 .Users{
   color: White;
 }
+
+/* Explore*/
+.Explore{
+  color: White;
+}
+.Explore .Comment{
+  float:right;
+}
+.PostContainer{
+  border: solid;
+}
+.Explore input{
+  width: 100%;
+  height: 80px;
+}
+.postBtn{
+  background: white;
+  color: black;
+  height: 100%;
+  width: 100%;
+}
+.postBtn:hover{
+  background: #6c8ebf;
+  cursor: pointer;
+}

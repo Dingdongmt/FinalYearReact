@@ -11,6 +11,7 @@ class Profile extends Component {
       back: false,
       SignOut: false,
       loading: true,
+      isAdmin: this.props.location.items.type,
       UserId: this.props.location.items.UserId,
     }
     this.onBackClick = this.onBackClick.bind(this);
@@ -72,37 +73,45 @@ class Profile extends Component {
                     <div className="col-md-8"><input type="text" value={this.state.data.Name}></input></div>
                 </div>
                 <div className="row col-md-12">
-                    <div className="col-md-4"><p>UserName :</p></div>
+                    <div className="col-md-4"><p>Nick name :</p></div>
                     <div className="col-md-8"><input type="text" value={this.state.data.NickName}></input></div>
+                </div>
+                <div className="row col-md-12">
+                    <div className="col-md-4"><p>UserName :</p></div>
+                    <div className="col-md-8"><input type="text" value={this.state.data.UserName}></input></div>
+                </div>
+                <div className="row col-md-12">
+                    <div className="col-md-4"><p>Password :</p></div>
+                    <div className="col-md-8"><input type="password" value={this.state.data.Password}></input></div>
                 </div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>Group Name :</p></div>
-                <div className="col-md-8"><input type="text" value={this.state.data.GroupName}></input></div>
+                <div className="col-md-8">{this.state.isAdmin !== "False" ?<input type="text" value={this.state.data.GroupName}></input>:<input disabled type="text" value={this.state.data.GroupName}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>Group Bio :</p></div>
-                <div className="col-md-8"><input type="text" value={this.state.data.Bio}></input></div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.Bio}></input>:<input disabled type="text" value={this.state.data.Bio}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>Address 1 :</p></div>
-                <div className="col-md-8"><input type="text" value={this.state.data.Address1}></input></div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.Address1}></input>:<input disabled type="text" value={this.state.data.Address1}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>Address 2 :</p></div>
-                <div className="col-md-8"><input type="text" value={this.state.data.Address2}></input></div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.Address2}></input>:<input disabled type="text" value={this.state.data.Address2}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>County</p></div>
-                <div className="col-md-8"><input type="text" value={this.state.data.County}></input></div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.County}></input>:<input disabled type="text" value={this.state.data.County}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>Country :</p></div>
-                <div className="col-md-8"><input type="text" value={this.state.data.Country}></input></div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.Country}></input>:<input disabled type="text" value={this.state.data.Country}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>PostCode :</p></div>
-                <div className="col-md-8"><input type="text" value={this.state.data.PostCode}></input></div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.PostCode}></input>:<input disabled type="text" value={this.state.data.PostCode}></input>}</div>
             </div>
             <div className="row col-md-12">
             <div className="col-md-4"></div>
