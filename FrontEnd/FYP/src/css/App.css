@@ -99,9 +99,9 @@
   width: 100%;
 }
 .ProfilePic{
-    height: 150px;
-    width: 150px;
-    margin-left: 50%;
+  height: 150px;
+  width: 200px !important;
+  padding-left: 20% !important;
 }
 .ProfileUser{
   margin-left:45px !important;
