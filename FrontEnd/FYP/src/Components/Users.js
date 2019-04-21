@@ -17,8 +17,8 @@ class Users extends Component {
   }
   componentWillMount(){
     var data = this.props.location.items;
-    //fetch ('https://fypwebservice.azurewebsites.net/GroupUsers',{
-    fetch ('http://localhost:62591//GroupUsers',{
+    fetch ('https://fypappservice.azurewebsites.net/GroupUsers',{
+    //fetch ('http://localhost:62591//GroupUsers',{
       headers: { 
         'Accept': 'application/json',
         'Content-Type': 'application/json' },

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../css/App.css';
+import defaultImg from '../Asset/ProfilePicDef.JPG';
 import {Redirect} from 'react-router-dom';
 //import {browserRouter, Route} from 'react-router-dom'; //impoorting React Router to nav between pages
 
@@ -19,7 +20,7 @@ class Profile extends Component {
   }
   componentDidMount(){
     var data= this.state.UserId;
-    fetch ('https://fypwebservice.azurewebsites.net/profile',{
+    fetch ('https://fypappservice.azurewebsites.net/profile',{
     //fetch ('http://localhost:62591//profile',{
       headers: { 
         'Accept': 'application/json',
@@ -64,10 +65,10 @@ class Profile extends Component {
             <div className="col-md-2 SignOut"><p className="NavTxt" onClick={this.onSignoutClick}>SignOut</p></div>
           </div>
         </div>
-        <div className="Signup">
+        <div className="Profile">
         <div className="row col-md-12">
-            <div className="row col-md-4"></div>
-            <div className="row col-md-8">
+            <div className="ProfilePic row col-md-4"><img className="ProfilePic" src={!this.state.data.image?defaultImg:this.state.data.image} alt="ProfilePicture."  /> </div>
+            <div className="ProfileUser row col-md-8">
                 <div className="row col-md-12">
                     <div className="col-md-4"><p>Name :</p></div>
                     <div className="col-md-8"><input type="text" value={this.state.data.Name}></input></div>

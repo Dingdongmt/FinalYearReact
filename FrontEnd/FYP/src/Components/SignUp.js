@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../css/App.css';
+import $ from "jquery";
 import {Redirect} from 'react-router-dom';
+
 //import {browserRouter, Route} from 'react-router-dom'; //impoorting React Router to nav between pages
 
 class SignUp extends Component {
@@ -27,6 +29,7 @@ class SignUp extends Component {
     this.onBackClick = this.onBackClick.bind(this);
     this.onchangeHandle = this.onchangeHandle.bind(this);
     this.Submit = this.Submit.bind(this);
+    this.readURL = this.readURL.bind(this);
   }
 
   onBackClick(){
@@ -73,8 +76,8 @@ class SignUp extends Component {
   }
   Submit(){
     var data = this.state.items;
-    //fetch ('https://fypwebservice.azurewebsites.net/Signup',{
-    fetch ('http://localhost:62591//Signup',{
+    fetch ('https://fypappservice.azurewebsites.net/Signup',{
+    //fetch ('http://localhost:62591//Signup',{
       headers: { 
         'Accept': 'application/json',
         'Content-Type': 'application/json' },
@@ -99,7 +102,19 @@ class SignUp extends Component {
     }
     )
   }
-  
+  readURL(event){
+    var input = event.target;
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      $('#blah').attr('src', e.target.result)
+      .width(200)
+      .height(120);
+    };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
   render() {
     if (this.state.back === true){
         return (<Redirect to={{pathname:'/'}}/>)
@@ -112,13 +127,18 @@ class SignUp extends Component {
             <div className="col-md-8 PageName"><h1>SignUp</h1></div>
           </div>
         </div>
-        <div className="Signup">
-        <div className="row col-md-12">
-            <div className="row col-md-4"></div>
-            <div className="row col-md-8">
+        <div className="Signup">        
+        <div className="SignupForm row col-md-12">
+            <div className="row col-md-4">
+            <div className="SignPic col-md-4">
+              <input className="SignPicinp" type='file' onChange={this.readURL} />
+              <img id="blah" src={this.state.src} alt="Images."  /> 
+            </div>
+            </div>
+            <div className="signuser row col-md-8">
                 <div className="row col-md-12">
-                    <div className="col-md-4"><p>Name* :</p></div>
-                    <div className="col-md-8"><input type="text" name="Name" onChange={this.onchangeHandle}></input></div>
+                  <div className="col-md-4"><p>Name* :</p></div>
+                  <div className="col-md-8"><input type="text" name="Name" onChange={this.onchangeHandle}></input></div>
                 </div>
                 <div className="row col-md-12">
                   <div className="col-md-4"><p>Bio :</p></div>

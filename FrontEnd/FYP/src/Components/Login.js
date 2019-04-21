@@ -36,7 +36,7 @@ class Login extends Component {
 
   Submit(){
     var data = {Username: this.state.Username , Password: this.state.Password};
-    fetch ('https://fypwebservice.azurewebsites.net/login',{
+    fetch ('https://fypappservice.azurewebsites.net/login',{
     //fetch ('http://localhost:62591//login',{
       headers: { 
         'Accept': 'application/json',

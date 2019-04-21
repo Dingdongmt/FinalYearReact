@@ -14,6 +14,8 @@ class Message extends Component {
     
     this.onBackClick = this.onBackClick.bind(this);
     this.onSignoutClick = this.onSignoutClick.bind(this);
+    this.mounting = this.mounting.bind(this);
+    this.mounting();
   }
 
   onBackClick(){
@@ -22,8 +24,52 @@ class Message extends Component {
   onSignoutClick(){
     this.setState({SignOut:true});
   }
-  
+
+  mounting(){
+    var data = this.props.location.items;
+    fetch ('https://fypappservice.azurewebsites.net/PostDetails',{
+    //fetch ('http://localhost:62591//ChatInfo',{
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' },
+      method:'POST',
+      body: JSON.stringify(data),
+    }).then(response => { return response.json() })
+    .then(results => {
+      if (results !== "false"){
+        this.setState({
+          PostData: results,
+          loading: false
+        });
+      }else {
+        this.setState({
+          error: "Could not find any messages"
+        });
+      }
+    },
+    (error)=>{
+      this.setState({
+        error: "There is something wrong with the server. Try again later"
+      });
+    }
+    )
+  }
+
   render() {
+    let table = [], chat =[];
+    if(this.state.PostData){
+      for (let j = 0; j < this.state.PostData.length; j++) {
+        if (this.state.PostData[j].CommentId){
+          chat.push(<div className="row col-md-10 Comment" key={j}>
+            <p className="col-md-2" key={"Name"+j}>{this.state.PostData[j].NickName}</p>
+            <p className="col-md-10" key={"CContainer"+j}>{this.state.PostData[j].CContainer}</p>
+          </div>)
+        }
+      }
+      //Create the parent and add the children
+      table.push(chat)
+    }
+
     if (this.state.back === true){
     return (<Redirect to={{pathname:'/home', items: this.props.location.items}}/>)
     }else if (this.state.SignOut === true){
@@ -37,6 +83,9 @@ class Message extends Component {
             <div className="col-md-8 PageName"><h1>Message</h1></div>
             <div className="col-md-2 SignOut"><p className="NavTxt" onClick={this.onSignoutClick}>SignOut</p></div>
           </div>
+        </div>
+        <div className="Explore">
+          {table}
         </div>
       </div>
       );

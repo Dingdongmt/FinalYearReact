@@ -41,7 +41,7 @@ class Explore extends Component {
     var UserId = this.props.location.items.UserId, Container = this.state.post, currentdate = new Date();
     var SentTime = + currentdate.getFullYear() + "-" + (currentdate.getMonth()+1)  + "-" + currentdate.getDate() + " " + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":" + currentdate.getSeconds();
     var data = {UserId, Container, SentTime}
-    fetch ('https://fypwebservice.azurewebsites.net/PostPost',{
+    fetch ('https://fypappservice.azurewebsites.net/PostPost',{
     //fetch ('http://localhost:62591//PostPost',{
       headers: { 
         'Accept': 'application/json',
@@ -68,7 +68,7 @@ class Explore extends Component {
 
   mounting(){
     var data = this.props.location.items;
-    fetch ('https://fypwebservice.azurewebsites.net/PostDetails',{
+    fetch ('https://fypappservice.azurewebsites.net/PostDetails',{
     //fetch ('http://localhost:62591//PostDetails',{
       headers: { 
         'Accept': 'application/json',
