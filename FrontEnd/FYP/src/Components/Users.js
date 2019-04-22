@@ -10,10 +10,12 @@ class Users extends Component {
     this.state = {
       back: false,
       SignOut: false,
+      item: {UserId:null}
     }
     
     this.onBackClick = this.onBackClick.bind(this);
     this.onSignoutClick = this.onSignoutClick.bind(this);
+    this.Userdetails = this.Userdetails.bind(this);
   }
   componentWillMount(){
     var data = this.props.location.items;
@@ -50,20 +52,61 @@ class Users extends Component {
   onSignoutClick(){
     this.setState({SignOut:true});
   }
+
+  Userdetails(event){
+    var data = {};
+    data={UserId:event.target.attributes.name.value};
+    fetch ('https://fypappservice.azurewebsites.net/GroupUserDetail',{
+    //fetch ('http://localhost:62591//GroupUserDetail',{
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' },
+      method:'POST',
+      body: JSON.stringify(data),
+    }).then(response => { return response.json() })
+    .then(results => {
+      if (results !== "false"){
+        this.setState({
+          UsersPost: results,
+        });
+      }else {
+        this.setState({
+          error: "Could not find any users for this group"
+        });
+      }
+    },
+    (error)=>{
+      this.setState({
+        error: "There is something wrong with the server. Try again later"
+      });
+    }
+    )
+  }
   
   render() {
-    let table = [], children =[];
+    let UserList = [], UserListchildren =[], UsersPost=[], UsersPostChildren=[];
     if(this.state.UsersList){
       for (let j = 0; j < this.state.UsersList.length; j++) {
-        children.push(<div className="row col-md-12" key={j}>
-        <p className="col-md-3" key={"user"+j}>{this.state.UsersList[j].Name}</p>
+        UserListchildren.push(<div className="userlist row col-md-12" key={j} >
+        <p className="col-md-3" key={"user"+j} name={this.state.UsersList[j].UserId} onClick={this.Userdetails}>{this.state.UsersList[j].Name}</p>
         <p className="col-md-3" key={"NickName"+j}>{this.state.UsersList[j].NickName}</p>
         <p className="col-md-3" key={"Bio"+j}>{this.state.UsersList[j].Bio}</p>
         <p className="col-md-3" key={"Admin"+j}>{this.state.UsersList[j].Admin? "True": "False"}</p>
         </div>)
       }
       //Create the parent and add the children
-      table.push(children)
+      UserList.push(UserListchildren)
+    }
+
+    if(this.state.UsersPost){
+      for (let j = 0; j < this.state.UsersPost.length; j++) {
+        UsersPostChildren.push(<div className="row col-md-12" key={j} >
+        <p className="col-md-8" key={"user"+j}>{this.state.UsersPost[j].Container}</p>
+        <p className="col-md-4" key={"Admin"+j}>{this.state.UsersPost[j].SentTime}</p>
+        </div>)
+      }
+      //Create the parent and add the children
+      UsersPost.push(UsersPostChildren)
     }
 
     if (this.state.back === true){
@@ -87,10 +130,12 @@ class Users extends Component {
             <h1 className="col-md-3" >Bio</h1>
             <h1 className="col-md-3" >Admin</h1>
           </div>
-          {table}
+          {UserList}
           <div className="row col-md-12">
-            <h1 className="col-md-6">post</h1>
+            <div className="row col-md-6"></div>
+            <h1 className="row col-md-6">Activity</h1>
           </div>
+          {UsersPost}
         </div>
       </div>
       );

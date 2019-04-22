@@ -110,13 +110,18 @@
 .Users{
   color: White;
 }
+.userlist:hover{
+  background: #6c8ebf;
+  color: #282c34;
+  cursor: pointer;
+}
 
 /* Explore*/
 .Explore{
   color: White;
 }
 .Explore .Comment{
-  float:right;
+  margin-left: 15%;
 }
 .PostContainer{
   border: solid;

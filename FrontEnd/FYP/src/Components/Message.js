@@ -27,7 +27,7 @@ class Message extends Component {
 
   mounting(){
     var data = this.props.location.items;
-    fetch ('https://fypappservice.azurewebsites.net/PostDetails',{
+    fetch ('https://fypappservice.azurewebsites.net/ChatInfo',{
     //fetch ('http://localhost:62591//ChatInfo',{
       headers: { 
         'Accept': 'application/json',

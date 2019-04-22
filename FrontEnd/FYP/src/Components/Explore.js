@@ -18,6 +18,8 @@ class Explore extends Component {
     this.onchangeHandle = this.onchangeHandle.bind(this);
     this.Postpost = this.Postpost.bind(this);
     this.mounting = this.mounting.bind(this);
+    this.flagPost = this.flagPost.bind(this);
+    this.deletePost = this.deletePost.bind(this);
     this.mounting();
   }
 
@@ -95,7 +97,37 @@ class Explore extends Component {
     }
     )
   }
-  
+
+  deletePost(event){
+    var PCType = event.target.attributes.value.value, PCId = event.target.attributes.name.value;
+    var data = {PCId, PCType};
+    fetch ('https://fypappservice.azurewebsites.net/DeletePost',{
+    //fetch ('http://localhost:62591//DeletePost',{
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' },
+      method:'POST',
+      body: JSON.stringify(data),
+    }).then(response => { return response.json() })
+    .then(results => {
+      if (results !== "false"){
+        this.mounting()
+      }else {
+        this.setState({
+          error: "Could not find any users for this group"
+        });
+      }
+    },
+    (error)=>{
+      this.setState({
+        error: "There is something wrong with the server. Try again later"
+      });
+    }
+    )
+  }
+  flagPost(event){
+    console.log("Report")
+  }
   render() {
     let table = [], children =[], post=[];
     if(this.state.PostData){
@@ -103,7 +135,9 @@ class Explore extends Component {
         if (this.state.PostData[j].CommentId){
           children.push(<div className="row col-md-10 Comment" key={j}>
             <p className="col-md-2" key={"Name"+j}>{this.state.PostData[j].NickName}</p>
-            <p className="col-md-10" key={"CContainer"+j}>{this.state.PostData[j].CContainer}</p>
+            <div className="row col-md-10" key={"CContainer"+j}><p className="col-md-8">{this.state.PostData[j].Container}</p>
+            <i className="col-md-2 far fa-flag" onClick={this.flagPost}/>
+            <i className="col-md-2 fas fa-trash-alt" name={this.state.PostData[j].CommentId} value="Comment" onClick={this.deletePost}/></div>
           </div>)
         }
       }
@@ -112,7 +146,9 @@ class Explore extends Component {
         if ( j === 0 || this.state.PostData[j].PostId !== this.state.PostData[j-1].PostId ){
           post.push(<div className="row col-md-12 PostContainer" key={j}>
             <p className="col-md-2" key={"Name"+j}>{this.state.PostData[j].NickName}</p>
-            <p className="col-md-10" key={"CContainer"+j}>{this.state.PostData[j].Container}</p>
+            <div className="row col-md-10" key={"CContainer"+j}><p className="col-md-8">{this.state.PostData[j].Container}</p>
+            <i className="col-md-2 far fa-flag" onClick={this.flagPost}/>
+            <i className="col-md-2 fas fa-trash-alt" name={this.state.PostData[j].PostId} value="Post" onClick={this.deletePost}/></div>
             {this.state.PostData[j].CommentId ? children : null}
           </div>)
         }
