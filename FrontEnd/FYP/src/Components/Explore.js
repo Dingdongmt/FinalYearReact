@@ -56,7 +56,7 @@ class Explore extends Component {
         this.mounting()
       }else {
         this.setState({
-          error: "Could not find any users for this group"
+          error: "Could not post this as there was an issue with the posting"
         });
       }
     },
@@ -86,7 +86,32 @@ class Explore extends Component {
         });
       }else {
         this.setState({
-          error: "Could not find any users for this group"
+          error: "No post or comments were found"
+        });
+      }
+    },
+    (error)=>{
+      this.setState({
+        error: "There is something wrong with the server. Try again later"
+      });
+    }
+    )
+
+    fetch ('https://fypappservice.azurewebsites.net/GetFilters',{
+    //fetch ('http://localhost:62591//GetFilters',{
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' },
+      method:'GET',
+    }).then(response => { return response.json() })
+    .then(results => {
+      if (results !== "false"){
+        this.setState({
+          filters: results,
+        });
+      }else {
+        this.setState({
+          error: "No post or comments were found"
         });
       }
     },
@@ -114,7 +139,7 @@ class Explore extends Component {
         this.mounting()
       }else {
         this.setState({
-          error: "Could not find any users for this group"
+          error: "there was an issue with deleting this"
         });
       }
     },
@@ -126,17 +151,50 @@ class Explore extends Component {
     )
   }
   flagPost(event){
-    console.log("Report")
+    var PCConent = event.target.attributes.name.value;
+    var ContainerWords = PCConent.split(" ");
+    for (var i = 0; i < ContainerWords.length; i++) { 
+      if (ContainerWords[0] !== ("Madan" ||"Thapa"|| "UnReportable"||"i"||"the"||"my")){
+        var data = {BadWord : ContainerWords[i]};
+        fetch ('https://fypappservice.azurewebsites.net/ReportPost',{
+        //fetch ('http://localhost:62591//ReportPost',{
+          headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' },
+          method:'POST',
+          body: JSON.stringify(data),
+        }).then(response => { return response.json() })
+        .then(results => {
+          if (results !== "false"){
+            this.mounting()
+          }else {
+            this.setState({
+              error: "Issue with reportin this post"
+            });
+          }
+        },
+        (error)=>{
+          this.setState({
+            error: "There is something wrong with the server. Try again later"
+          });
+        }
+        )
+      }
+    }
   }
   render() {
-    let table = [], children =[], post=[];
-    if(this.state.PostData){
-      for (let j = 0; j < this.state.PostData.length; j++) {
-        if (this.state.PostData[j].CommentId){
+    let table = [], children =[], post=[], filtered = "", i= 0;
+    if(this.state.PostData && this.state.filters){ //check that the post and filter are being passed
+      for (let j = 0; j < this.state.PostData.length; j++) { //loop throught all posts
+        if (this.state.PostData[j].CommentId){ // check post has commnet
+          filtered = this.state.PostData[j].CContainer;
+            for(i = 0; i < this.state.filters.length; i++) {
+              filtered = filtered.replace(new RegExp(this.state.filters[i], "g"), "****");
+            }
           children.push(<div className="row col-md-10 Comment" key={j}>
-            <p className="col-md-2" key={"Name"+j}>{this.state.PostData[j].NickName}</p>
-            <div className="row col-md-10" key={"CContainer"+j}><p className="col-md-8">{this.state.PostData[j].Container}</p>
-            <i className="col-md-2 far fa-flag" onClick={this.flagPost}/>
+            <p className="col-md-2" key={"Name"+j}>{this.state.PostData[j].CCNickName}</p>
+            <div className="row col-md-10" key={"CContainer"+j}><p className="col-md-8">{filtered}</p>
+            <i className="col-md-2 far fa-flag" name={this.state.PostData[j].CContainer} value="Post" onClick={this.flagPost}/>
             <i className="col-md-2 fas fa-trash-alt" name={this.state.PostData[j].CommentId} value="Comment" onClick={this.deletePost}/></div>
           </div>)
         }
@@ -144,13 +202,17 @@ class Explore extends Component {
 
       for (let j = 0; j < this.state.PostData.length; j++) {
         if ( j === 0 || this.state.PostData[j].PostId !== this.state.PostData[j-1].PostId ){
-          post.push(<div className="row col-md-12 PostContainer" key={j}>
-            <p className="col-md-2" key={"Name"+j}>{this.state.PostData[j].NickName}</p>
-            <div className="row col-md-10" key={"CContainer"+j}><p className="col-md-8">{this.state.PostData[j].Container}</p>
-            <i className="col-md-2 far fa-flag" onClick={this.flagPost}/>
-            <i className="col-md-2 fas fa-trash-alt" name={this.state.PostData[j].PostId} value="Post" onClick={this.deletePost}/></div>
-            {this.state.PostData[j].CommentId ? children : null}
-          </div>)
+          filtered = this.state.PostData[j].Container;
+            for(i = 0; i < this.state.filters.length; i++) {
+              filtered = filtered.replace(new RegExp(this.state.filters[i], "g"), "****");
+            }
+            post.push(<div className="row col-md-12 PostContainer" key={j}>
+              <p className="col-md-2" key={"Name"+j}>{this.state.PostData[j].NickName}</p>
+              <div className="row col-md-10" key={"CContainer"+j}><p className="col-md-8">{filtered}</p>
+              <i className="col-md-2 far fa-flag" name={this.state.PostData[j].Container} value="Post" onClick={this.flagPost}/>
+              <i className="col-md-2 fas fa-trash-alt" name={this.state.PostData[j].PostId} value="Post" onClick={this.deletePost}/></div>
+              {this.state.PostData[j].CommentId ? children : null}
+            </div>)
         }
       }
       //Create the parent and add the children
