@@ -10,12 +10,19 @@ class Users extends Component {
     this.state = {
       back: false,
       SignOut: false,
-      item: {UserId:null}
+      item: {UserId:null},
+      adduser:{
+        Name: "",
+        UserName:"",
+        Password:"",
+      }
     }
     
     this.onBackClick = this.onBackClick.bind(this);
     this.onSignoutClick = this.onSignoutClick.bind(this);
     this.Userdetails = this.Userdetails.bind(this);
+    this.onchangeHandle = this.onchangeHandle.bind(this);
+    this.AddUsers = this.AddUsers.bind(this);
   }
   componentWillMount(){
     var data = this.props.location.items;
@@ -82,6 +89,50 @@ class Users extends Component {
     }
     )
   }
+  onchangeHandle(event){
+    var value = event.target.value, name =  event.target.name, olditem= this.state.adduser;
+    switch (name){
+      case "Name":
+      olditem.Name = value
+      break;
+      case "UserName":
+      olditem.UserName = value
+      break;
+      default:
+      olditem.Password = value
+    }
+    this.setState({adduser:olditem});
+  }
+
+  AddUsers(){
+    var data=this.state.adduser;
+    data.GroupId = this.state.UsersList[0].GroupId;
+    fetch ('https://fypappservice.azurewebsites.net/AddUser',{
+    //fetch ('http://localhost:62591//AddUser',{
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' },
+      method:'POST',
+      body: JSON.stringify(data),
+    }).then(response => { return response.json() })
+    .then(results => {
+      if (results !== "false"){
+        this.setState({
+          UsersPost: results,
+        });
+      }else {
+        this.setState({
+          error: "Error while adding user"
+        });
+      }
+    },
+    (error)=>{
+      this.setState({
+        error: "There is something wrong with the server. Try again later"
+      });
+    }
+    )
+  }
   
   render() {
     let UserList = [], UserListchildren =[], UsersPost=[], UsersPostChildren=[];
@@ -131,6 +182,21 @@ class Users extends Component {
             <h1 className="col-md-3" >Admin</h1>
           </div>
           {UserList}
+          <div className="row col-md-12">
+            <h1 className="col-md-4" >Name</h1>
+            <h1 className="col-md-4" >UserName</h1>
+            <h1 className="col-md-4" >Password</h1>
+          </div>
+          <div className="row col-md-12">
+            <div className="col-md-4" ><input name="Name" onChange={this.onchangeHandle} value={this.state.adduser.Name}></input></div>
+            <div className="col-md-4" ><input name="UserName" onChange={this.onchangeHandle} value={this.state.adduser.UserName}></input></div>
+            <div className="col-md-4" ><input type="Password" name="PassWord" onChange={this.onchangeHandle} value={this.state.adduser.Password}></input></div>
+          </div>
+          <div className="row col-md-12">
+            <div className="col-md-4"></div>
+            <button type="button" className="loginBtn btn btn-success col-md-4" onClick={this.AddUsers}>Add User</button>
+            <div className="col-md-4"></div>
+            </div>
           <div className="row col-md-12">
             <div className="row col-md-6"></div>
             <h1 className="row col-md-6">Activity</h1>

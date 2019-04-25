@@ -17,8 +17,11 @@ class Profile extends Component {
     }
     this.onBackClick = this.onBackClick.bind(this);
     this.onSignoutClick = this.onSignoutClick.bind(this);
+    this.onchangeHandle = this.onchangeHandle.bind(this);
+    this.Submit = this.Submit.bind(this);
+    
   }
-  componentDidMount(){
+  componentWillMount(){
     var data= this.state.UserId;
     fetch ('https://fypappservice.azurewebsites.net/profile',{
     //fetch ('http://localhost:62591//profile',{
@@ -36,6 +39,74 @@ class Profile extends Component {
         });
       }
     },
+    )
+  }
+
+  onchangeHandle(event){
+    var value = event.target.value, name =  event.target.name, olditem= this.state.data;
+    switch (name){
+      case "Name":
+      olditem.Name = value
+      break;
+      case "Bio":
+      olditem.Bio = value
+      break;
+      case "UserName":
+      olditem.UserName = value
+      break;
+      case "Password":
+      olditem.Password = value
+      break;
+      case "GroupName":
+      olditem.GroupName = value
+      break;
+      case "GroupBio":
+      olditem.GroupBio = value
+      break;
+      case "Address1":
+      olditem.Address1 = value
+      break;
+      case "Address2":
+      olditem.Address2 = value
+      break;
+      case "County":
+      olditem.County = value
+      break;
+      case "Country":
+      olditem.Country = value
+      break;
+      default:
+      olditem.PostCode = value
+    }
+    this.setState({data:olditem});
+  }
+
+  Submit(){
+    var item = this.state.data;
+    fetch ('https://fypappservice.azurewebsites.net/UpdateProfile',{
+    //fetch ('http://localhost:62591//UpdateProfile',{
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' },
+      method:'POST',
+      body: JSON.stringify(item),
+    }).then(response => { return response.json() })
+    .then(results => {
+      if (results !== "false"){
+        this.setState({
+          loggedin: results,
+        });
+      }else {
+        this.setState({
+          error: "Please Try again as some of the fields are incorrect"
+        });
+      }
+    },
+    (error)=>{
+      this.setState({
+        error: "There is something wrong with the server. Try again later"
+      });
+    }
     )
   }
 
@@ -71,52 +142,52 @@ class Profile extends Component {
             <div className="ProfileUser row col-md-8">
                 <div className="row col-md-12">
                     <div className="col-md-4"><p>Name :</p></div>
-                    <div className="col-md-8"><input type="text" value={this.state.data.Name}></input></div>
+                    <div className="col-md-8"><input type="text" name="Name" value={this.state.data.Name} onChange={this.onchangeHandle}></input></div>
                 </div>
                 <div className="row col-md-12">
                     <div className="col-md-4"><p>Nick name :</p></div>
-                    <div className="col-md-8"><input type="text" value={this.state.data.NickName}></input></div>
+                    <div className="col-md-8"><input type="text" name="NickName" onChange={this.onchangeHandle} value={this.state.data.NickName}></input></div>
                 </div>
                 <div className="row col-md-12">
                     <div className="col-md-4"><p>UserName :</p></div>
-                    <div className="col-md-8"><input type="text" value={this.state.data.UserName}></input></div>
+                    <div className="col-md-8"><input type="text" name="UserName" onChange={this.onchangeHandle} value={this.state.data.UserName}></input></div>
                 </div>
                 <div className="row col-md-12">
                     <div className="col-md-4"><p>Password :</p></div>
-                    <div className="col-md-8"><input type="password" value={this.state.data.Password}></input></div>
+                    <div className="col-md-8"><input type="password" name="Password" onChange={this.onchangeHandle} value={this.state.data.Password}></input></div>
                 </div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>Group Name :</p></div>
-                <div className="col-md-8">{this.state.isAdmin !== "False" ?<input type="text" value={this.state.data.GroupName}></input>:<input disabled type="text" value={this.state.data.GroupName}></input>}</div>
+                <div className="col-md-8">{this.state.isAdmin !== "False" ?<input type="text" onChange={this.onchangeHandle} name="GroupName" value={this.state.data.GroupName}></input>:<input disabled type="text" value={this.state.data.GroupName}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>Group Bio :</p></div>
-                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.Bio}></input>:<input disabled type="text" value={this.state.data.Bio}></input>}</div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" onChange={this.onchangeHandle} name="Bio" value={this.state.data.Bio}></input>:<input disabled type="text" value={this.state.data.Bio}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>Address 1 :</p></div>
-                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.Address1}></input>:<input disabled type="text" value={this.state.data.Address1}></input>}</div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" onChange={this.onchangeHandle} name="Address1" value={this.state.data.Address1}></input>:<input disabled type="text" value={this.state.data.Address1}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>Address 2 :</p></div>
-                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.Address2}></input>:<input disabled type="text" value={this.state.data.Address2}></input>}</div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" onChange={this.onchangeHandle} name="Address2" value={this.state.data.Address2}></input>:<input disabled type="text" value={this.state.data.Address2}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>County</p></div>
-                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.County}></input>:<input disabled type="text" value={this.state.data.County}></input>}</div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" onChange={this.onchangeHandle} name="County" value={this.state.data.County}></input>:<input disabled type="text" value={this.state.data.County}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>Country :</p></div>
-                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.Country}></input>:<input disabled type="text" value={this.state.data.Country}></input>}</div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" onChange={this.onchangeHandle} name="Country" value={this.state.data.Country}></input>:<input disabled type="text" value={this.state.data.Country}></input>}</div>
             </div>
             <div className="row col-md-12">
                 <div className="col-md-4"><p>PostCode :</p></div>
-                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" value={this.state.data.PostCode}></input>:<input disabled type="text" value={this.state.data.PostCode}></input>}</div>
+                <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" onChange={this.onchangeHandle} name="PostCode" value={this.state.data.PostCode}></input>:<input disabled type="text" value={this.state.data.PostCode}></input>}</div>
             </div>
             <div className="row col-md-12">
             <div className="col-md-4"></div>
-            <button type="button" className="loginBtn btn btn-success col-md-4" >Update</button>
+            <button type="button" className="loginBtn btn btn-success col-md-4" onClick={this.Submit}>Update</button>
             <div className="col-md-4"></div>
             </div>
         </div>

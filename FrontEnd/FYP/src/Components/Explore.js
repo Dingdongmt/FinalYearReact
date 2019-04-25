@@ -20,6 +20,7 @@ class Explore extends Component {
     this.mounting = this.mounting.bind(this);
     this.flagPost = this.flagPost.bind(this);
     this.deletePost = this.deletePost.bind(this);
+    this.CommentPost = this.CommentPost.bind(this);
     this.mounting();
   }
 
@@ -36,7 +37,7 @@ class Explore extends Component {
       this.setState({post: value})
       break;
       default:
-      this.setState({post: value})
+      this.setState({comment: value})
     }
   }
   Postpost(){
@@ -45,6 +46,34 @@ class Explore extends Component {
     var data = {UserId, Container, SentTime}
     fetch ('https://fypappservice.azurewebsites.net/PostPost',{
     //fetch ('http://localhost:62591//PostPost',{
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' },
+      method:'POST',
+      body: JSON.stringify(data),
+    }).then(response => { return response.json() })
+    .then(results => {
+      if (results !== "false"){
+        this.mounting()
+      }else {
+        this.setState({
+          error: "Could not post this as there was an issue with the posting"
+        });
+      }
+    },
+    (error)=>{
+      this.setState({
+        error: "There is something wrong with the server. Try again later"
+      });
+    }
+    )
+  }
+
+  CommentPost(event){
+    var UserId = this.props.location.items.UserId, Container = this.state.comment, PostId = event.target.attributes.PostId.value;
+    var data = {UserId, Container, PostId}
+    fetch ('https://fypappservice.azurewebsites.net/PostComment',{
+    //fetch ('http://localhost:62591//PostComment',{
       headers: { 
         'Accept': 'application/json',
         'Content-Type': 'application/json' },
@@ -212,6 +241,10 @@ class Explore extends Component {
               <i className="col-md-2 far fa-flag" name={this.state.PostData[j].Container} value="Post" onClick={this.flagPost}/>
               <i className="col-md-2 fas fa-trash-alt" name={this.state.PostData[j].PostId} value="Post" onClick={this.deletePost}/></div>
               {this.state.PostData[j].CommentId ? children : null}
+              <div className="row col-md-12">
+              <div className="col-md-8"><input type="text" name="Comment" onChange={this.onchangeHandle}></input></div>
+              <div className="col-md-2"><button PostId={this.state.PostData[j].PostId} onClick={this.CommentPost}>Comment</button></div>
+              </div>
             </div>)
         }
       }
@@ -239,7 +272,7 @@ class Explore extends Component {
           </div>
           <div className="Explore">
           <div className="row col-md-12">
-          <div className="col-md-8"><input type="text" name="Post" onChange={this.onchangeHandle}></input></div>
+          <div className="col-md-8"><input className="postInp" type="text" name="Post" onChange={this.onchangeHandle}></input></div>
           <div className="col-md-2"><button className="postBtn" onClick={this.Postpost}>Post</button></div>
           </div>
             {table}
