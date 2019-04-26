@@ -24,7 +24,7 @@ class SignUp extends Component {
         Country:null,
         PostCode:null,
       },
-      error:false,
+      response: null,
     }
     this.onBackClick = this.onBackClick.bind(this);
     this.onchangeHandle = this.onchangeHandle.bind(this);
@@ -88,16 +88,17 @@ class SignUp extends Component {
       if (results !== "false"){
         this.setState({
           loggedin: results,
+          response: "You have successfully made an admin account"
         });
       }else {
         this.setState({
-          error: "Please Try again as some of the fields are incorrect"
+          response: "Please Try again as some of the fields are incorrect"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -182,6 +183,7 @@ class SignUp extends Component {
                 <div className="col-md-8"><input type="text" name="PostCode" onChange={this.onchangeHandle}></input></div>
             </div>
             <div className="row col-md-12">
+            <p className="ERROR">{this.state.response}</p>
             <div className="col-md-4"></div>
             <button type="button" className="loginBtn btn btn-success col-md-4" onClick={this.Submit}>SignUp</button>
             <div className="col-md-4"></div>

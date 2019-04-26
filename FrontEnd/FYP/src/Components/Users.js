@@ -11,6 +11,7 @@ class Users extends Component {
       back: false,
       SignOut: false,
       item: {UserId:null},
+      response: null,
       adduser:{
         Name: "",
         UserName:"",
@@ -41,13 +42,13 @@ class Users extends Component {
         });
       }else {
         this.setState({
-          error: "Could not find any users for this group"
+          response: "Could not find any users for this group"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -78,13 +79,13 @@ class Users extends Component {
         });
       }else {
         this.setState({
-          error: "Could not find any users for this group"
+          response: "Could not find any users for this group"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -122,13 +123,13 @@ class Users extends Component {
         });
       }else {
         this.setState({
-          error: "Error while adding user"
+          response: "Error while adding user"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -202,6 +203,7 @@ class Users extends Component {
             <h1 className="row col-md-6">Activity</h1>
           </div>
           {UsersPost}
+          <p className="ERROR">{this.state.response}</p>
         </div>
       </div>
       );

@@ -9,7 +9,7 @@ class Login extends Component {
     this.state = {
       Username:"",
       Password:"",
-      error: null,
+      response: null,
       Type:false,
       loggedin:false,
       signup: false,
@@ -51,13 +51,13 @@ class Login extends Component {
         });
       }else {
         this.setState({
-          error: "Username or password entered is incorrect"
+          response: "Username or password entered is incorrect"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -90,7 +90,7 @@ class Login extends Component {
                 <input type="Password" className="form-control" placeholder="Password" onChange={this.handlePass}></input>
               </div>
             </div>
-            <p className="Error">{!this.state.error ? "":this.state.error}</p>
+            <p className="ERROR">{!this.state.response ? "":this.state.response}</p>
               <button type="button" className="loginBtn btn btn-success" onClick={this.Submit}>Login</button>
             </header>
           </div>

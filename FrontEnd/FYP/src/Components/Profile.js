@@ -14,6 +14,7 @@ class Profile extends Component {
       loading: true,
       isAdmin: this.props.location.items.type,
       UserId: this.props.location.items.UserId,
+      Response: null,
     }
     this.onBackClick = this.onBackClick.bind(this);
     this.onSignoutClick = this.onSignoutClick.bind(this);
@@ -95,16 +96,17 @@ class Profile extends Component {
       if (results !== "false"){
         this.setState({
           loggedin: results,
+          response: "Profile successfully updated"
         });
       }else {
         this.setState({
-          error: "Please Try again as some of the fields are incorrect"
+          response: "Please Try again as some of the fields are incorrect"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -185,6 +187,7 @@ class Profile extends Component {
                 <div className="col-md-4"><p>PostCode :</p></div>
                 <div className="col-md-8">{this.state.isAdmin !== "False"?<input type="text" onChange={this.onchangeHandle} name="PostCode" value={this.state.data.PostCode}></input>:<input disabled type="text" value={this.state.data.PostCode}></input>}</div>
             </div>
+            <p className="ERROR">{this.state.response}</p>
             <div className="row col-md-12">
             <div className="col-md-4"></div>
             <button type="button" className="loginBtn btn btn-success col-md-4" onClick={this.Submit}>Update</button>

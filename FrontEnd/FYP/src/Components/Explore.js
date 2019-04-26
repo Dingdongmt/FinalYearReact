@@ -11,6 +11,7 @@ class Explore extends Component {
       back: false,
       SignOut: false,
       Post: null,
+      response: null,
     }
     
     this.onBackClick = this.onBackClick.bind(this);
@@ -57,13 +58,13 @@ class Explore extends Component {
         this.mounting()
       }else {
         this.setState({
-          error: "Could not post this as there was an issue with the posting"
+          response: "Could not post this as there was an issue with the posting"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -85,13 +86,13 @@ class Explore extends Component {
         this.mounting()
       }else {
         this.setState({
-          error: "Could not post this as there was an issue with the posting"
+          response: "Could not post this as there was an issue with the posting"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -115,13 +116,13 @@ class Explore extends Component {
         });
       }else {
         this.setState({
-          error: "No post or comments were found"
+          response: "No post or comments were found"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -140,13 +141,13 @@ class Explore extends Component {
         });
       }else {
         this.setState({
-          error: "No post or comments were found"
+          response: "No post or comments were found"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -168,13 +169,13 @@ class Explore extends Component {
         this.mounting()
       }else {
         this.setState({
-          error: "there was an issue with deleting this"
+          response: "there was an issue with deleting this"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -195,16 +196,19 @@ class Explore extends Component {
         }).then(response => { return response.json() })
         .then(results => {
           if (results !== "false"){
+            this.setState({
+              response: "Post has been reported and will be managed"
+            });
             this.mounting()
           }else {
             this.setState({
-              error: "Issue with reportin this post"
+              response: "Issue with reporting this post"
             });
           }
         },
         (error)=>{
           this.setState({
-            error: "There is something wrong with the server. Try again later"
+            response: "There is something wrong with the server. Try again later"
           });
         }
         )
@@ -276,6 +280,7 @@ class Explore extends Component {
           <div className="col-md-2"><button className="postBtn" onClick={this.Postpost}>Post</button></div>
           </div>
             {table}
+            <p className="ERROR">{this.state.response}</p>
           </div>
         </div>
         );

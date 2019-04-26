@@ -11,6 +11,7 @@ class Message extends Component {
       back: false,
       SignOut: false,
       Render: null,
+      response: null,
     }
     
     this.onBackClick = this.onBackClick.bind(this);
@@ -39,13 +40,13 @@ class Message extends Component {
         });
       }else {
         this.setState({
-          error: "Could not find any users for this group"
+          response: "Could not find any users for this group"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -64,13 +65,13 @@ class Message extends Component {
         });
       }else {
         this.setState({
-          error: "Could not find any users for this group"
+          response: "Could not find any users for this group"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -106,13 +107,13 @@ class Message extends Component {
         this.mounting();
       }else {
         this.setState({
-          error: "Could Transfer this message"
+          response: "Could Transfer this message"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -165,13 +166,13 @@ class Message extends Component {
         });
       }else {
         this.setState({
-          error: "Could not find any messages"
+          response: "Could not find any messages"
         });
       }
     },
     (error)=>{
       this.setState({
-        error: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later"
       });
     }
     )
@@ -212,6 +213,7 @@ class Message extends Component {
           {this.state.RenderChat}
         </div>
         </div>
+        <p className="ERROR">{this.state.response}</p>
         </div>
         </div>
       );

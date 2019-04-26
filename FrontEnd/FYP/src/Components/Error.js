@@ -7,12 +7,12 @@ class Home extends Component {
     super(props);
     this.state = {
     }
-}
+  }
   
   render() {
     return (
       <div className="App">
-        <h1>Path does not exist</h1>
+        <h1 className="Errorpage">Path does not exist. Please go back or click here to get to login screen <a href="https://friendlybunch.azurewebsites.net/">Click here</a></h1>
         </div>
     );
   }
