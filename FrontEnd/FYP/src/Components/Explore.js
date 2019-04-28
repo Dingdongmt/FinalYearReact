@@ -127,27 +127,27 @@ class Explore extends Component {
     }
     )
 
-    fetch ('https://fypappservice.azurewebsites.net/GetFilters',{
+    fetch ('https://fypappservice.azurewebsites.net/GetFilters',{ //call this api request
     //fetch ('http://localhost:62591//GetFilters',{
       headers: { 
         'Accept': 'application/json',
         'Content-Type': 'application/json' },
-      method:'GET',
+      method:'GET', // GET HTTPS request
     }).then(response => { return response.json() })
     .then(results => {
       if (results !== "false"){
         this.setState({
-          filters: results,
+          filters: results, //Return set into a state so can be called from anywhere
         });
       }else {
         this.setState({
-          response: "No post or comments were found"
+          response: "No post or comments were found" //erron on the front ent
         });
       }
     },
     (error)=>{
       this.setState({
-        response: "There is something wrong with the server. Try again later"
+        response: "There is something wrong with the server. Try again later" // error with api or database
       });
     }
     )
@@ -181,32 +181,32 @@ class Explore extends Component {
     )
   }
   flagPost(event){
-    var PCConent = event.target.attributes.name.value;
-    var ContainerWords = PCConent.split(" ");
+    var PCConent = event.target.attributes.name.value; //Commented post is as a varibale
+    var ContainerWords = PCConent.split(" "); //the prievious varbialbe is split when a SPACE is it
     for (var i = 0; i < ContainerWords.length; i++) { 
-      if (ContainerWords[0] !== ("Madan" ||"Thapa"|| "UnReportable"||"i"||"the"||"my")){
-        var data = {BadWord : ContainerWords[i]};
-        fetch ('https://fypappservice.azurewebsites.net/ReportPost',{
+      if (ContainerWords[0] !== ("Madan" ||"Thapa"|| "UnReportable"||"i"||"the"||"my")){ //Common words are exempted from being reported
+        var data = {BadWord : ContainerWords[i]}; //the words that are bad are set to data
+        fetch ('https://fypappservice.azurewebsites.net/ReportPost',{ //api called
         //fetch ('http://localhost:62591//ReportPost',{
           headers: { 
             'Accept': 'application/json',
             'Content-Type': 'application/json' },
-          method:'POST',
-          body: JSON.stringify(data),
-        }).then(response => { return response.json() })
+          method:'POST', //methode POST
+          body: JSON.stringify(data), //Data is sent as a string 
+        }).then(response => { return response.json() }) //return response as a json
         .then(results => {
-          if (results !== "false"){
+          if (results !== "false"){ //when the process is successfull 
             this.setState({
               response: "Post has been reported and will be managed"
             });
             this.mounting()
-          }else {
+          }else { //when error is front end
             this.setState({
               response: "Issue with reporting this post"
             });
           }
         },
-        (error)=>{
+        (error)=>{ //error is API or DATABASE related
           this.setState({
             response: "There is something wrong with the server. Try again later"
           });
@@ -220,10 +220,11 @@ class Explore extends Component {
     if(this.state.PostData && this.state.filters){ //check that the post and filter are being passed
       for (let j = 0; j < this.state.PostData.length; j++) { //loop throught all posts
         if (this.state.PostData[j].CommentId){ // check post has commnet
-          filtered = this.state.PostData[j].CContainer;
-            for(i = 0; i < this.state.filters.length; i++) {
-              filtered = filtered.replace(new RegExp(this.state.filters[i], "g"), "****");
+          filtered = this.state.PostData[j].CContainer; //comment is set to a variale Filter
+            for(i = 0; i < this.state.filters.length; i++) { //Count the length fo the filter
+              filtered = filtered.replace(new RegExp(this.state.filters[i], "g"), "****"); //Using REGEX filter globle of this comment
             }
+            //render this with the filtered words displaying
           children.push(<div className="row col-md-10 Comment" key={j}>
             <p className="col-md-2" key={"Name"+j}>{this.state.PostData[j].CCNickName}</p>
             <div className="row col-md-10" key={"CContainer"+j}><p className="col-md-8">{filtered}</p>
